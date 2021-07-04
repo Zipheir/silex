@@ -1,4 +1,4 @@
-;; Copyright (C) 1997 Danny Dube, Universite de Montreal.
+;; Copyright (C) 1997 Danny Dubé, Université de Montréal.
 ;; All rights reserved.
 
 ;; Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following
@@ -42,15 +42,6 @@
                     (loop3 (- i 1) (- j 1)))
                   (loop2 i (cdr y)))))
             result))))))
-
-; Copyright (C) 1997 Danny Dube', Universite' de Montre'al.
-; All rights reserved.
-; SILex 1.0.
-
-; Module util.scm.
-; Copyright (C) 1997 Danny Dube', Universite' de Montre'al.
-; All rights reserved.
-; SILex 1.0.
 
 ;
 ; Quelques definitions de constantes
