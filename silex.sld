@@ -7,4 +7,9 @@
 
   ;; exports TODO
 
+  (include "tables/action.scm")
+  (include "tables/class.scm")
+  (include "tables/macro.scm")
+  (include "tables/regexp.scm")
+  (include "tables/string.scm")
   (include "silex.scm"))
