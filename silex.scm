@@ -29,11 +29,6 @@
 ;;; NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;;; SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-(module silex *
-  (import scheme srfi-13)		; srfi-13 for string-downcase
-
-;----------------------------------------------------------------------------------------------------
-
 (define (string-append-list lst)
   (let loop1 ((n 0) (x lst) (y '()))
     (if (pair? x)
@@ -6703,5 +6698,3 @@
 			'table-name table-name
 			'fileout fileout)
 		  options))))
-
-)
