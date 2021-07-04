@@ -107,9 +107,6 @@
 		 "         'error)"
 		 (string #\newline)))
 
-
-
-
 ;
 ; Fabrication de tables de dispatch
 ;
@@ -123,9 +120,6 @@
 	    (begin
 	      (vector-set! v (caar alist) (cdar alist))
 	      (loop (cdr alist))))))))
-
-
-
 
 ;
 ; Fonctions de manipulation des tokens
@@ -147,9 +141,6 @@
 (define get-tok-attr     (lambda (tok) (vector-ref tok 4)))
 (define get-tok-2nd-attr (lambda (tok) (vector-ref tok 5)))
 
-
-
-
 ;
 ; Fonctions de manipulations des regles
 ;
@@ -170,9 +161,6 @@
 (define set-rule-regexp  (lambda (rule regexp)  (vector-set! rule 5 regexp)))
 (define set-rule-action  (lambda (rule action)  (vector-set! rule 6 action)))
 (define set-rule-yytext? (lambda (rule yytext?) (vector-set! rule 7 yytext?)))
-
-
-
 
 ;
 ; Noeuds des regexp
@@ -199,9 +187,6 @@
 (define get-re-type  (lambda (re) (vector-ref re 0)))
 (define get-re-attr1 (lambda (re) (vector-ref re 1)))
 (define get-re-attr2 (lambda (re) (vector-ref re 2)))
-
-
-
 
 ;
 ; Fonctions de manipulation des ensembles d'etats
@@ -276,9 +261,6 @@
 		       (loop (cdr ss1) (cdr ss2) l (cons t1 c) r))
 		      (else
 		       (loop ss1 (cdr ss2) l c (cons t2 r))))))))))
-
-
-
 
 ;
 ; Fonctions de manipulation des classes de caracteres
@@ -434,9 +416,6 @@
 	   (c-l (class->char-list c2)))
       (cons (not finite?) c-l))))
 
-
-
-
 ;
 ; Fonction digraph
 ;
@@ -494,9 +473,6 @@
 		    (visit-node n))
 		(loop (+ n 1)))))
 	final))))
-
-
-
 
 ;
 ; Fonction de tri
@@ -2303,9 +2279,6 @@
 	      (make-tok power-tok lexeme line column range))
 	    (loop (+ comma 1)))))))
 
-
-
-
 ;
 ; Lexer generique
 ;
@@ -2412,9 +2385,6 @@
 		     (string-append str (string #\newline)))))
       (set! lexer-history '())
       str2)))
-
-
-
 
 ;
 ; Traitement des listes de tokens
@@ -2731,9 +2701,6 @@
 			 (cons r1 revr)
 			 <<EOF>>-action
 			 <<ERROR>>-action))))))))
-
-
-
 
 ;
 ; Analyseur de fichier lex
@@ -4342,9 +4309,6 @@
 	   (clean-lines (out-remove-empty-lines lines)))
       (string-append-list clean-lines))))
 
-
-
-
 ;
 ; Pretty-printer pour les booleens, la liste vide, les nombres,
 ; les symboles, les caracteres, les chaines, les listes et les vecteurs
@@ -4572,9 +4536,6 @@
 	    (map out-force-string list-of-strings-n-chars)))
       (string-append-list list-of-strings))))
 
-
-
-
 ;
 ; Nice-printer, plus rapide mais moins beau que le pretty-printer
 ;
@@ -4662,9 +4623,6 @@
 	       (if (> col out-max-col)
 		   (step-line hole))
 	       (string-append-list (reverse texts)))))))
-
-
-
 
 ;
 ; Fonction pour afficher une table
@@ -6541,9 +6499,6 @@
 	      (loop (cdr l)))))
       (lex-exit-continuation #f))))
 
-
-
-
 ;
 ; Decoupage des arguments
 ;
@@ -6581,9 +6536,6 @@
 		   (lex-error #f #f "the value of \"" sym "\" not specified."))
 		  (else
 		   (cons (cons sym (cadr args)) (loop (cddr args))))))))))
-
-
-
 
 ;
 ; Differentes etapes de la fabrication de l'automate
@@ -6675,9 +6627,6 @@
 	      (result (lex6 args-alist)))
 ; 	 (display "lex7: ") (write (get-internal-run-time)) (newline)
 	 result)))))
-
-
-
 
 ;
 ; Fonctions principales
