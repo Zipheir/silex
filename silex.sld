@@ -12,4 +12,7 @@
   (include "tables/macro.scm")
   (include "tables/regexp.scm")
   (include "tables/string.scm")
-  (include "silex.scm"))
+  (include "silex.scm")
+  (include "output.scm")
+  (include "output2.scm")
+  )
