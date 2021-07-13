@@ -1,5 +1,3 @@
-(import (scheme case-lambda))
-
 ;
 ; Quelques definitions de constantes
 ;
@@ -75,42 +73,44 @@
 ; Fonctions de manipulation des tokens
 ;
 
+(define-record-type <token>
+  (%make-raw-token type line column lexeme attr1 attr2)
+  token?
+  (type get-tok-type)
+  (line get-tok-line)
+  (column get-tok-column)
+  (lexeme get-tok-lexeme)
+  (attr1 get-tok-attr)
+  (attr2 get-tok-2nd-attr))
+
 (define make-tok
   (case-lambda
     ((tok-type lexeme line column)
-     (vector tok-type line column lexeme))
+     (make-tok tok-type lexeme line column #f #f))
     ((tok-type lexeme line column attr1)
-     (vector tok-type line column lexeme attr1))
+     (make-tok tok-type lexeme line column attr1 #f))
     ((tok-type lexeme line column attr1 attr2)
-     (vector tok-type line column lexeme attr1 attr2))))
-
-(define get-tok-type     (lambda (tok) (vector-ref tok 0)))
-(define get-tok-line     (lambda (tok) (vector-ref tok 1)))
-(define get-tok-column   (lambda (tok) (vector-ref tok 2)))
-(define get-tok-lexeme   (lambda (tok) (vector-ref tok 3)))
-(define get-tok-attr     (lambda (tok) (vector-ref tok 4)))
-(define get-tok-2nd-attr (lambda (tok) (vector-ref tok 5)))
+     (%make-raw-token tok-type line column lexeme attr1 attr2))))
 
 ;
 ; Fonctions de manipulations des regles
 ;
 
+(define-record-type <rule>
+  (%make-raw-rule line eof? error? bol? eol? regexp action yytext?)
+  rule?
+  (line get-rule-line)
+  (eof? get-rule-eof?)
+  (error? get-rule-error?)
+  (bol? get-rule-bol?)
+  (eol? get-rule-eol?)
+  (regexp get-rule-regexp set-rule-regexp)
+  (action get-rule-action set-rule-action)
+  (yytext? get-rule-yytext? set-rule-yytext?))
+
 (define make-rule
   (lambda (line eof? error? bol? eol? regexp action)
-    (vector line eof? error? bol? eol? regexp action #f)))
-
-(define get-rule-line    (lambda (rule) (vector-ref rule 0)))
-(define get-rule-eof?    (lambda (rule) (vector-ref rule 1)))
-(define get-rule-error?  (lambda (rule) (vector-ref rule 2)))
-(define get-rule-bol?    (lambda (rule) (vector-ref rule 3)))
-(define get-rule-eol?    (lambda (rule) (vector-ref rule 4)))
-(define get-rule-regexp  (lambda (rule) (vector-ref rule 5)))
-(define get-rule-action  (lambda (rule) (vector-ref rule 6)))
-(define get-rule-yytext? (lambda (rule) (vector-ref rule 7)))
-
-(define set-rule-regexp  (lambda (rule regexp)  (vector-set! rule 5 regexp)))
-(define set-rule-action  (lambda (rule action)  (vector-set! rule 6 action)))
-(define set-rule-yytext? (lambda (rule yytext?) (vector-set! rule 7 yytext?)))
+    (%make-raw-rule (line eof? error? bol? eol? regexp action #f))))
 
 ;
 ; Noeuds des regexp
