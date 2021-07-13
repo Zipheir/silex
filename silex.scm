@@ -2,7 +2,13 @@
 ; Copyright (C) 1997 Danny Dube', Universite' de Montre'al.
 ; All rights reserved.
 ; SILex 1.0.
-(import (silex))
+(import (scheme base)
+        (scheme write)
+        (silex parser)
+        (silex re2nfa)
+        (silex nfa2dfa)
+        (silex dfa)
+        (silex output))
 
 (define lex-exit-continuation #f)
 (define lex-unwind-protect-list '())
