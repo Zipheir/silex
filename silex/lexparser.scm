@@ -3,6 +3,8 @@
 ; All rights reserved.
 ; SILex 1.0.
 
+(define lex-error (make-parameter #f))
+
 ;
 ; Fonctions auxilliaires du lexer
 ;
@@ -205,15 +207,15 @@
                           (new-tok (make-tok char-tok "" line column attr)))
                      (cons new-tok new-toks)))
                   ((= tok-type <<EOF>>-tok)
-                   (lex-error (get-tok-line tok)
-                              (get-tok-column tok)
-                              "the <<EOF>> anchor must be used alone"
-                              " and only after %%."))
+                   ((lex-error) (get-tok-line tok)
+                                (get-tok-column tok)
+                                "the <<EOF>> anchor must be used alone"
+                                " and only after %%."))
                   ((= tok-type <<ERROR>>-tok)
-                   (lex-error (get-tok-line tok)
-                              (get-tok-column tok)
-                              "the <<ERROR>> anchor must be used alone"
-                              " and only after %%."))))))))
+                   ((lex-error) (get-tok-line tok)
+                                (get-tok-column tok)
+                                "the <<ERROR>> anchor must be used alone"
+                                " and only after %%."))))))))
 
 (define strip-end
   (lambda (l)
@@ -271,11 +273,11 @@
                                (ass (assoc name macros)))
                           (if ass
                               (cons (cdr ass) (cdr tok-list))
-                              (lex-error (get-tok-line tok)
-                                         (get-tok-column tok)
-                                         "unknown macro \""
-                                         (get-tok-2nd-attr tok)
-                                         "\".")))))
+                              ((lex-error) (get-tok-line tok)
+                                           (get-tok-column tok)
+                                           "unknown macro \""
+                                           (get-tok-2nd-attr tok)
+                                           "\".")))))
                 (cons char-tok
                       (lambda (tok tok-list macros)
                         (let ((c (get-tok-attr tok)))
@@ -290,9 +292,9 @@
                                (re (char-list->conc char-list)))
                           (cons re (cdr tok-list))))))
           (lambda (tok tok-list macros)
-            (lex-error (get-tok-line tok)
-                       (get-tok-column tok)
-                       "syntax error in regular expression.")))))
+            ((lex-error) (get-tok-line tok)
+                         (get-tok-column tok)
+                         "syntax error in regular expression.")))))
     (lambda (tok-list macros)
       (let* ((tok (car tok-list))
              (tok-type (get-tok-type tok))
@@ -306,9 +308,9 @@
            (end (cdr range)))
       (if (or (eq? 'inf end) (<= start end))
           range
-          (lex-error (get-tok-line tok)
-                     (get-tok-column tok)
-                     "incorrect power specification.")))))
+          ((lex-error) (get-tok-line tok)
+                       (get-tok-column tok)
+                       "incorrect power specification.")))))
 
 (define power->star-plus
   (lambda (re range)
@@ -414,18 +416,18 @@
     (let loop ((tl tok-list) (count 0))
       (if (null? tl)
           (if (> count 0)
-              (lex-error line
-                         #f
-                         "mismatched parentheses."))
+              ((lex-error) line
+                           #f
+                           "mismatched parentheses."))
           (let* ((tok (car tl))
                  (tok-type (get-tok-type tok)))
             (cond ((= tok-type lpar-tok)
                    (loop (cdr tl) (+ count 1)))
                   ((= tok-type rpar-tok)
                    (if (zero? count)
-                       (lex-error line
-                                  #f
-                                  "mismatched parentheses."))
+                       ((lex-error) line
+                                    #f
+                                    "mismatched parentheses."))
                    (loop (cdr tl) (- count 1)))
                   (else
                    (loop (cdr tl) count))))))))
@@ -470,20 +472,20 @@
           (let ((r1 (car r)))
             (cond ((get-rule-eof? r1)
                    (if <<EOF>>-action
-                       (lex-error (get-rule-line r1)
-                                  #f
-                                  "the <<EOF>> anchor can be "
-                                  "used at most once.")
+                       ((lex-error) (get-rule-line r1)
+                                    #f
+                                    "the <<EOF>> anchor can be "
+                                    "used at most once.")
                        (loop (cdr r)
                              revr
                              (get-rule-action r1)
                              <<ERROR>>-action)))
                   ((get-rule-error? r1)
                    (if <<ERROR>>-action
-                       (lex-error (get-rule-line r1)
-                                  #f
-                                  "the <<ERROR>> anchor can be "
-                                  "used at most once.")
+                       ((lex-error) (get-rule-line r1)
+                                    #f
+                                    "the <<ERROR>> anchor can be "
+                                    "used at most once.")
                        (loop (cdr r)
                              revr
                              <<EOF>>-action
@@ -524,7 +526,7 @@
                      (cond ((= tok3-type char-tok)
                             (let ((c2 (get-tok-attr tok3)))
                               (if (> c c2)
-                                  (lex-error (get-tok-line tok3)
+                                  ((lex-error) (get-tok-line tok3)
                                              (get-tok-column tok3)
                                              "bad range specification in "
                                              "character class;"
@@ -534,7 +536,7 @@
                                   (cons c c2))))
                            ((or (= tok3-type rbrack-tok)
                                 (= tok3-type minus-tok))
-                            (lex-error (get-tok-line tok3)
+                            ((lex-error) (get-tok-line tok3)
                                        (get-tok-column tok3)
                                        "bad range specification in "
                                        "character class; a specification"
@@ -542,12 +544,12 @@
                                        "like \"-x\", \"x--\" or \"x-]\" has "
                                        "been used."))
                            ((= tok3-type eof-tok)
-                            (lex-error (get-tok-line tok3)
+                            ((lex-error) (get-tok-line tok3)
                                        #f
                                        "eof of file found while parsing "
                                        "a character class.")))))))
             ((= tok-type minus-tok)
-             (lex-error (get-tok-line tok)
+             ((lex-error) (get-tok-line tok)
                         (get-tok-column tok)
                         "bad range specification in character class; a "
                         "specification"
@@ -556,7 +558,7 @@
             ((= tok-type rbrack-tok)
              #f)
             ((= tok-type eof-tok)
-             (lex-error (get-tok-line tok)
+             ((lex-error) (get-tok-line tok)
                         #f
                         "eof of file found while parsing "
                         "a character class."))))))
@@ -586,7 +588,7 @@
                                 (pop-lexer)
                                 '())
                                (else ; eof-tok
-                                (lex-error (get-tok-line tok)
+                                ((lex-error) (get-tok-line tok)
                                            #f
                                            "end of file found while "
                                            "parsing a string.")))))))
@@ -642,7 +644,7 @@
                            (cons tok1 (loop)))))
                  (cons illegal-tok
                        (lambda (tok loop)
-                         (lex-error (get-tok-line tok)
+                         ((lex-error) (get-tok-line tok)
                                     (get-tok-column tok)
                                     "syntax error in macro reference."))))
            (lambda (tok loop)
@@ -664,7 +666,7 @@
       (cond ((or (= tok-type hblank-tok) (= tok-type vblank-tok))
              (parse-regexp))
             (else  ; percent-percent-tok, id-tok ou illegal-tok
-             (lex-error (get-tok-line tok)
+             ((lex-error) (get-tok-line tok)
                         (get-tok-column tok)
                         "white space expected."))))))
 
@@ -678,7 +680,7 @@
              (let* ((name (get-tok-attr tok))
                     (ass (assoc name macros)))
                (if ass
-                   (lex-error (get-tok-line tok)
+                   ((lex-error) (get-tok-line tok)
                               (get-tok-column tok)
                               "the macro \""
                               (get-tok-2nd-attr tok)
@@ -691,11 +693,11 @@
              (pop-lexer)
              #f)
             ((= tok-type illegal-tok)
-             (lex-error (get-tok-line tok)
+             ((lex-error) (get-tok-line tok)
                         (get-tok-column tok)
                         "macro name expected."))
             ((= tok-type eof-tok)
-             (lex-error (get-tok-line tok)
+             ((lex-error) (get-tok-line tok)
                         #f
                         "end of file found before %%."))))))
 
@@ -771,15 +773,16 @@
             '())))))
 
 (define parser
-  (lambda (filename)
+  (lambda (filename lex-unwind-protect lerror)
     (let* ((port (open-input-file filename))
            (port-open? #t))
       (lex-unwind-protect (lambda ()
                             (if port-open?
                                 (close-input-port port))))
       (init-lexer port)
-      (let* ((macros (parse-macros))
-             (rules (parse-rules macros)))
-        (close-input-port port)
-        (set! port-open? #f)
-        (adapt-rules rules)))))
+        (parameterize ((lex-error lerror))
+          (let* ((macros (parse-macros))
+                 (rules (parse-rules macros)))
+            (close-input-port port)
+            (set! port-open? #f)
+            (adapt-rules rules))))))
