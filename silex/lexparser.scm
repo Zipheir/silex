@@ -171,7 +171,7 @@
 (define lexer-get-history
   (lambda ()
     (let* ((rightlist (reverse lexer-history))
-           (str (string-append-list rightlist))
+           (str (string-concatenate rightlist))
            (strlen (string-length str))
            (str2 (if (and (> strlen 0)
                           (char=? (string-ref str (- strlen 1)) #\newline))

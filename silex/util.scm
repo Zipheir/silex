@@ -1,20 +1,3 @@
-(define (string-append-list lst)
-  (let loop1 ((n 0) (x lst) (y '()))
-    (if (pair? x)
-      (let ((s (car x)))
-        (loop1 (+ n (string-length s)) (cdr x) (cons s y)))
-      (let ((result (make-string n #\space)))
-        (let loop2 ((k (- n 1)) (y y))
-          (if (pair? y)
-            (let ((s (car y)))
-              (let loop3 ((i k) (j (- (string-length s) 1)))
-                (if (not (< j 0))
-                  (begin
-                    (string-set! result i (string-ref s j))
-                    (loop3 (- i 1) (- j 1)))
-                  (loop2 i (cdr y)))))
-            result))))))
-
 ;
 ; Quelques definitions de constantes
 ;

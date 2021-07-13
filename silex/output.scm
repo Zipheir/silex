@@ -52,7 +52,7 @@
   (lambda (s)
     (let* ((lines (out-split-in-lines s))
            (clean-lines (out-remove-empty-lines lines)))
-      (string-append-list clean-lines))))
+      (string-concatenate clean-lines))))
 
 ;
 ; Pretty-printer pour les booleens, la liste vide, les nombres,
@@ -279,7 +279,7 @@
             (out-flatten-list list-rec-of-strings-n-chars))
            (list-of-strings
             (map out-force-string list-of-strings-n-chars)))
-      (string-append-list list-of-strings))))
+      (string-concatenate list-of-strings))))
 
 ;
 ; Nice-printer, plus rapide mais moins beau que le pretty-printer
@@ -367,7 +367,7 @@
              (lambda (col objw texts hole)
                (if (> col out-max-col)
                    (step-line hole))
-               (string-append-list (reverse texts)))))))
+               (string-concatenate (reverse texts)))))))
 
 ;
 ; Fonction pour afficher une table
