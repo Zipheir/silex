@@ -39,24 +39,6 @@
                                          'inf+
                                          (+ t 1)))))))))))
 
-; ; Passe d'une liste d'arcs a un arbre de decision
-; ; 1ere methode: seulement des comparaisons <
-; (define prep-arcs->tree
-;   (lambda (arcs)
-;     (let* ((sharcs-l (map prep-arc->sharcs arcs))
-;          (sharcs (apply append sharcs-l))
-;          (sorted-with-holes (merge-sort sharcs prep-sharc-<=))
-;          (sorted (prep-fill-error sorted-with-holes))
-;          (op (lambda (sharc) (cons (caar sharc) (cdr sharc))))
-;          (table (list->vector (map op sorted))))
-;       (let loop ((left 0) (right (- (vector-length table) 1)))
-;       (if (= left right)
-;           (cdr (vector-ref table left))
-;           (let ((mid (quotient (+ left right 1) 2)))
-;             (list (car (vector-ref table mid))
-;                   (loop left (- mid 1))
-;                   (loop mid right))))))))
-
 ; Passe d'une liste d'arcs a un arbre de decision
 ; 2eme methode: permettre des comparaisons = quand ca adonne
 (define prep-arcs->tree
