@@ -1,3 +1,5 @@
+(import (scheme case-lambda))
+
 ;
 ; Quelques definitions de constantes
 ;
@@ -66,25 +68,21 @@
 (define make-dispatch-table
   (lambda (size alist default)
     (let ((v (make-vector size default)))
-      (let loop ((alist alist))
-        (if (null? alist)
-            v
-            (begin
-              (vector-set! v (caar alist) (cdar alist))
-              (loop (cdr alist))))))))
+      (for-each (lambda (p) (vector-set! v (car p) (cdr p))) alist)
+      v)))
 
 ;
 ; Fonctions de manipulation des tokens
 ;
 
 (define make-tok
-  (lambda (tok-type lexeme line column . attr)
-    (cond ((null? attr)
-           (vector tok-type line column lexeme))
-          ((null? (cdr attr))
-           (vector tok-type line column lexeme (car attr)))
-          (else
-           (vector tok-type line column lexeme (car attr) (cadr attr))))))
+  (case-lambda
+    ((tok-type lexeme line column)
+     (vector tok-type line column lexeme))
+    ((tok-type lexeme line column attr1)
+     (vector tok-type line column lexeme attr1))
+    ((tok-type lexeme line column attr1 attr2)
+     (vector tok-type line column lexeme attr1 attr2))))
 
 (define get-tok-type     (lambda (tok) (vector-ref tok 0)))
 (define get-tok-line     (lambda (tok) (vector-ref tok 1)))
@@ -128,13 +126,10 @@
 (define char-re     7)
 
 (define make-re
-  (lambda (re-type . lattr)
-    (cond ((null? lattr)
-           (vector re-type))
-          ((null? (cdr lattr))
-           (vector re-type (car lattr)))
-          ((null? (cddr lattr))
-           (vector re-type (car lattr) (cadr lattr))))))
+  (case-lambda
+    ((re-type) (vector re-type))
+    ((re-type attr1) (vector re-type attr1))
+    ((re-type attr1 attr2) (vector re-type attr1 attr2))))
 
 (define get-re-type  (lambda (re) (vector-ref re 0)))
 (define get-re-attr1 (lambda (re) (vector-ref re 1)))
