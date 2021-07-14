@@ -39,7 +39,7 @@
   (lambda (lexeme line column)
     (let* ((orig-name (extract-id lexeme))
            (name (string-downcase orig-name)))
-    (make-tok subst-tok lexeme line column name orig-name))))
+      (make-tok subst-tok lexeme line column name orig-name))))
 
 (define parse-power-m
   (lambda (lexeme line column)
