@@ -96,14 +96,7 @@
 ; Normaliser un vecteur de listes d'arcs
 (define n2d-normalize-arcs-v
   (lambda (arcs-v)
-    (let* ((nbnodes (vector-length arcs-v))
-           (new-v (make-vector nbnodes)))
-      (let loop ((n 0))
-        (if (= n nbnodes)
-            new-v
-            (begin
-              (vector-set! new-v n (n2d-normalize-arcs (vector-ref arcs-v n)))
-              (loop (+ n 1))))))))
+    (vector-map n2d-normalize-arcs arcs-v)))
 
 ; Inserer un arc dans une liste d'arcs a classes distinctes en separant
 ; les arcs contenant une partie de la classe du nouvel arc des autres arcs
