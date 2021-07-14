@@ -1,4 +1,5 @@
-; Module output2.scm.
+;;; This is free software.  See LICENSE for copyright information.
+
 ;
 ; Fonction de copiage du fichier run-time
 ;

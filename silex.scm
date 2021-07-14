@@ -1,7 +1,5 @@
-; Module main.scm.
-; Copyright (C) 1997 Danny Dube', Universite' de Montre'al.
-; All rights reserved.
-; SILex 1.0.
+;;; This is free software.  See LICENSE for copyright information.
+
 (import (scheme base)
         (scheme write)
         (silex parser)

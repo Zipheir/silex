@@ -1,7 +1,4 @@
-; Module re2nfa.scm.
-; Copyright (C) 1997 Danny Dube', Universite' de Montre'al.
-; All rights reserved.
-; SILex 1.0.
+;;; This is free software.  See LICENSE for copyright information.
 
 ; Le vecteur d'etats contient la table de transition du nfa.
 ; Chaque entree contient les arcs partant de l'etat correspondant.

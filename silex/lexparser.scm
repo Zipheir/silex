@@ -1,7 +1,4 @@
-; Module lexparser.scm.
-; Copyright (C) 1997 Danny Dube', Universite' de Montre'al.
-; All rights reserved.
-; SILex 1.0.
+;;; This is free software.  See LICENSE for copyright information.
 
 (define lex-error (make-parameter #f))
 

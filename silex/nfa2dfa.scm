@@ -1,7 +1,4 @@
-; Module nfa2dfa.scm.
-; Copyright (C) 1997 Danny Dube', Universite' de Montre'al.
-; All rights reserved.
-; SILex 1.0.
+;;; This is free software.  See LICENSE for copyright information.
 
 ; Recoupement de deux arcs
 (define n2d-2arcs
