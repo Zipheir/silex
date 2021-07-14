@@ -36,7 +36,7 @@
 (define number-of-tokens 29)
 
 (define newline-ch   (char->integer #\newline))
-(define tab-ch       (char->integer #\  ))
+(define tab-ch       (char->integer #\tab))
 (define dollar-ch    (char->integer #\$))
 (define minus-ch     (char->integer #\-))
 (define rbrack-ch    (char->integer #\]))
