@@ -771,8 +771,8 @@
 
 (define parser
   (lambda (filename lex-unwind-protect lerror)
-    (let* ((port (open-input-file filename))
-           (port-open? #t))
+    (let ((port (open-input-file filename))
+          (port-open? #t))
       (lex-unwind-protect (lambda ()
                             (if port-open?
                                 (close-input-port port))))
