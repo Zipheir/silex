@@ -1,4 +1,4 @@
-# silex-modern
+# silex-moderne
 
 SIlex is a lexer generator for Scheme written by Danny Dubé.  Like
 (F)lex, it takes a token-action specification as input and produces
