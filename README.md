@@ -1,4 +1,4 @@
-# silex-r7rs
+# silex-modern
 
 SIlex is a lexer generator for Scheme written by Danny Dubé.  Like
 (F)lex, it takes a token-action specification as input and produces
@@ -6,7 +6,7 @@ a lexical analyzer which can be incorporated into a larger Scheme
 program.  It is BSD-licensed and written in portable R5RS Scheme.
 
 This is an attempt to clean up the sprawling SIlex code, document
-the tool, and make it run easily on R7RS Scheme implementations.
+the tool, and make it run easily on R[67]RS Scheme implementations.
 
 ## Documentation
 
